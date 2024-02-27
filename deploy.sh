@@ -41,7 +41,7 @@ else
 	echo "Volume stack-"${SERVICE_NAME}"_db-data already exists"
 fi
 
-docker build $(cd ../../ && pwd)/docker-services/ms-${SERVICE_NAME} -t my_wordpress
+docker build $(pwd) -t my_wordpress
 
 # deploy the stack-file-mng stack
 docker stack deploy --with-registry-auth --compose-file docker-compose.yml stack-${SERVICE_NAME}
