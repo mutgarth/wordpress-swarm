@@ -14,11 +14,11 @@ This file structure helps noobs like me to fast deploy locally a wordpress conta
 2. Create a docker secret password. Run on terminal:
    
    ```
-   printf "password" | docker secret create wp_db_password
+   printf "password" | docker secret create wp_db_password -
    ```
 3. Create a docker secret username. Run on terminal:
     ```
-   printf "username" | docker secret create wp_db_username
+   printf "username" | docker secret create wp_db_username -
    ```
 > **Hint:**
 > Save your credentials. I am already forgot them and needed to redo everything...
