@@ -14,7 +14,7 @@ services:
       MYSQL_PASSWORD_FILE: /run/secrets/wp_db_password
     secrets:
       - wp_db_password
-      - db_username
+      - wp_db_username
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin -u $$MYSQL_USER -p$$MYSQL_PASSWORD ping -h localhost || exit 1"]
       start_period: 10s
