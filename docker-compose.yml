@@ -1,0 +1,56 @@
+version: '3'
+
+services:
+  db:
+    image: mysql:8.0.36
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3303:3306" ### changed 
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/dummy_secret
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER_FILE: /run/secrets/db_username
+      MYSQL_PASSWORD_FILE: /run/secrets/dummy_secret
+    secrets:
+      - dummy_secret
+      - db_username
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin -u $$MYSQL_USER -p$$MYSQL_PASSWORD ping -h localhost || exit 1"]
+      start_period: 10s
+      interval: 2s
+      timeout: 5s
+      retries: 20
+      
+  wordpress:
+    image: my_wordpress:latest
+    volumes:
+      - wordpress:/var/www/html:rw
+    ports:
+      - "8085:80"
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER_FILE: /run/secrets/db_username
+      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/dummy_secret
+      WORDPRESS_DB_NAME: wordpress
+    secrets:
+      - dummy_secret
+      - db_username
+
+  adminer:
+    depends_on: 
+      - db
+    image: adminer:latest
+    restart: always
+    ports: 
+      - 8889:8080
+
+volumes:
+  wordpress:
+  db-data:
+
+secrets:
+  dummy_secret:
+    external: true
+  db_username:
+    external: true
