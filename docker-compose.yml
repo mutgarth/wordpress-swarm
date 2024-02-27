@@ -8,12 +8,12 @@ services:
     ports:
       - "3303:3306" ### changed 
     environment:
-      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/dummy_secret
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/wp_db_password
       MYSQL_DATABASE: wordpress
-      MYSQL_USER_FILE: /run/secrets/db_username
-      MYSQL_PASSWORD_FILE: /run/secrets/dummy_secret
+      MYSQL_USER_FILE: /run/secrets/wp_db_username
+      MYSQL_PASSWORD_FILE: /run/secrets/wp_db_password
     secrets:
-      - dummy_secret
+      - wp_db_password
       - db_username
     healthcheck:
       test: ["CMD-SHELL", "mysqladmin -u $$MYSQL_USER -p$$MYSQL_PASSWORD ping -h localhost || exit 1"]
@@ -30,12 +30,12 @@ services:
       - "8085:80"
     environment:
       WORDPRESS_DB_HOST: db
-      WORDPRESS_DB_USER_FILE: /run/secrets/db_username
-      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/dummy_secret
+      WORDPRESS_DB_USER_FILE: /run/secrets/wp_db_username
+      WORDPRESS_DB_PASSWORD_FILE: /run/secrets/wp_db_password
       WORDPRESS_DB_NAME: wordpress
     secrets:
-      - dummy_secret
-      - db_username
+      - wp_db_password
+      - wp_db_username
 
   adminer:
     depends_on: 
@@ -50,7 +50,7 @@ volumes:
   db-data:
 
 secrets:
-  dummy_secret:
+  wp_db_password:
     external: true
-  db_username:
+  wp_db_username:
     external: true
