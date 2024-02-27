@@ -43,7 +43,7 @@ Where the password is the password you set with docker secret.
 The script creates a backup folder inside the project folder with **your-service-name.tar.gz** compressed file.
 
 ### On the new server:
-1. Clone the repo on your new server and create a backup folder inside it.
+1. Clone the repo on your new server and create a folder **backups** inside it.
 2. Transfer the **your-service-name.tar.gz** file from the old server to the folder you just created on the new server.
 3. Create a docker secret password. **It must be the same you set on the old server**:
    
